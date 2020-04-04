@@ -1,0 +1,118 @@
+﻿@page "/edit/{UrlTitle}"
+@page "/new"
+
+@inject NavigationManager nav
+@inject PageDataService  pageData
+
+@using System.Diagnostics
+
+@if (Model != null)
+{
+    <div class="mat-layout-grid-inner mat-layout-grid-align-right" style="max-width:400px;">
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+            <MatButton Style="float:right" OnClick="SavePage">Save changes</MatButton>
+        </div>
+    </div>
+    <div class="mat-layout-grid-inner">
+        <div class="mat-layout-grid-cell">
+            <MatStringField @bind-Value="Model.Title" @oninput="TitleChanged" Label="Page Title" Outlined="true" FullWidth="true"></MatStringField>
+        </div>
+        <div class="mat-layout-grid-cell">
+            <MatStringField @bind-Value="Model.UrlTitle" Label="Page title in url" Disabled="Model.Id.HasValue" HelperText="Once set, this can't be changed" Outlined="true" FullWidth="true"></MatStringField>
+        </div>
+    </div>
+    <BlazoredTextEditor @ref="@QuillHtml">
+        <ToolbarContent>
+            <select class="ql-header">
+                <option selected=""></option>
+                <option value="1"></option>
+                <option value="2"></option>
+                <option value="3"></option>
+                <option value="4"></option>
+                <option value="5"></option>
+            </select>
+            <span class="ql-formats">
+                <button class="ql-bold"></button>
+                <button class="ql-italic"></button>
+                <button class="ql-underline"></button>
+                <button class="ql-strike"></button>
+            </span>
+            <span class="ql-formats">
+                <select class="ql-color"></select>
+                <select class="ql-background"></select>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-list" value="ordered"></button>
+                <button class="ql-list" value="bullet"></button>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-link"></button>
+            </span>
+        </ToolbarContent>
+        <EditorContent>
+        </EditorContent>
+    </BlazoredTextEditor>
+}
+else
+{
+    <MatProgressBar Indeterminate="true"></MatProgressBar>
+}
+
+@code {
+
+    [Parameter]
+    public string UrlTitle { get; set; }
+
+    public BlikiPageModel Model { get; set; }
+
+    public BlazoredTextEditor QuillHtml { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(UrlTitle))
+        {
+            Model = await pageData.GetPageModel(UrlTitle);
+        }
+        else
+        {
+            Model = new BlikiPageModel()
+            {
+                Title = "Page Title",
+                UrlTitle = UrlTitleHelper.ToUrlTitle("Page Title"),
+                HtmlContent = "<p>Welcome to my page!</p>",
+            };
+        }
+        StateHasChanged();
+        await this.QuillHtml.LoadHTMLContent(Model.HtmlContent);
+    }
+    public void TitleChanged(ChangeEventArgs e)
+    {
+        Model.Title = e.Value.ToString();
+        if (!Model.Id.HasValue)
+        {
+            Model.UrlTitle = UrlTitleHelper.ToUrlTitle(Model.Title);
+        }
+    }
+
+    public async Task SavePage()
+    {
+        Model.HtmlContent = await this.QuillHtml.GetHTML();
+        await pageData.SavePageModel(Model);
+        nav.NavigateTo($"page/{Model.UrlTitle}");
+    }
+
+    //public async void GetHTML()
+    //{
+    //    QuillHTMLContent = await this.QuillHtml.GetHTML();
+    //    StateHasChanged();
+    //}
+
+    //public async void SetHTML()
+    //{
+    //    string QuillContent =
+    //        @"<a href='http://BlazorHelpWebsite.com/'>" +
+    //        "<img src='images/BlazorHelpWebsite.gif' /></a>";
+
+    //    StateHasChanged();
+    //}
+}

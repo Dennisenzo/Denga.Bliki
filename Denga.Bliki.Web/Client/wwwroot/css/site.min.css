@@ -1,0 +1,1 @@
+﻿@import url("open-iconic/font/css/open-iconic-bootstrap.min.css");html,body{box-sizing:border-box;margin:0;font-family:Roboto,sans-serif;}html a,body a{text-decoration:none;}app{display:flex;flex-direction:row;}app .sidebar{flex:0 0 200px;height:100vh;}app .sidebar .title{text-align:center;}app .main{padding-left:10px;padding-top:100px;flex:1;}

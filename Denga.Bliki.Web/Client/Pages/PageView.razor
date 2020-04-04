@@ -1,0 +1,38 @@
+﻿@page "/page/{UrlTitle}"
+@inject NavigationManager nav
+@inject PageDataService  pageData
+
+@if (Model != null)
+{
+    <MatButton OnClick="EditPage">Edit</MatButton>
+
+    <div class="page-title">
+        @Model.Title
+    </div>
+    <div class="page-content">
+
+        @((MarkupString)Model.HtmlContent)
+    </div>
+}
+else
+{
+    <MatProgressBar Indeterminate="true"></MatProgressBar>
+}
+
+@code {
+
+    [Parameter]
+    public string UrlTitle { get; set; }
+
+    public BlikiPageModel Model { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Model = await pageData.GetPageModel(UrlTitle);
+    }
+
+    public void EditPage()
+    {
+        nav.NavigateTo($"edit/{Model.UrlTitle}");
+    }
+}
