@@ -1,0 +1,31 @@
+﻿@page "/recent"
+@using Denga.Bwiki.Web.Client.DataServices
+@using Denga.Bwiki.Web.Shared.Models
+@inject NavigationManager nav
+@inject PageDataService  pageData
+RECENT CHANGES
+@if (isSearching)
+{
+<MatProgressBar Indeterminate="true"></MatProgressBar>
+}
+@foreach (var blikiPage in Pages)
+{
+<p>
+    <a href="page/@blikiPage.UrlTitle">@blikiPage.Title</a> (Modified: @blikiPage.ModifiedAt.ToString("dd-MM-yyyy HH:mm"))
+</p>
+}
+
+
+@code {
+
+    public bool isSearching = false;
+    public IEnumerable<BlikiPageModel> Pages { get; set; } = new List<BlikiPageModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        isSearching = true;
+        Pages =await pageData.GetRecentChanges();
+        isSearching = false;
+    }
+
+}

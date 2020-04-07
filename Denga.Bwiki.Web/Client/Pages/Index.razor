@@ -1,0 +1,51 @@
+﻿@page "/"
+@using Denga.Bwiki.Web.Client.DataServices
+@using Denga.Bwiki.Web.Shared.Models
+@inject PageDataService pageData
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<input type="text" @oninput="Search" />
+
+<h1> Resultaten</h1>
+@if (isSearching)
+{
+    <MatProgressBar Indeterminate="true"></MatProgressBar>
+}
+else
+{
+    if (Results.Any())
+    {
+        @foreach (var result in Results)
+        {
+            <p>
+                <a href="page/@result.UrlTitle">@result.Title</a>
+            </p>
+        }
+    }
+    else
+    {
+        <p>Geen resultaten gevonden</p>
+    }
+}
+
+@code{
+    public IEnumerable<BlikiPageModel> Results { get; set; } = new List<BlikiPageModel>();
+
+    public bool isSearching = false;
+
+    public async Task Search(ChangeEventArgs e)
+    {
+        isSearching = true;
+        if (string.IsNullOrWhiteSpace(e.Value.ToString()))
+        {
+            Results = new List<BlikiPageModel>();
+        }
+        else
+        {
+            Results = await pageData.SearchPageModel(e.Value?.ToString());
+        }
+        isSearching = false;
+    }
+}
