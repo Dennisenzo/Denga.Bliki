@@ -4,14 +4,16 @@ using Denga.Bliki.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Denga.Bliki.Data.Migrations
 {
     [DbContext(typeof(BlikiContext))]
-    partial class BlikiContextModelSnapshot : ModelSnapshot
+    [Migration("20200407151503_cascading_deletes")]
+    partial class cascading_deletes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

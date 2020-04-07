@@ -13,16 +13,22 @@ namespace Denga.Bliki.Data
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            modelBuilder.Entity<BlikiPageMetaData>()
-                .HasMany(md => md.Versions)
-                .WithOne(pc => pc.MetaData);
+            builder.Entity<BlikiPageMetaData>(entity =>
+            {
+                entity.HasMany(md => md.Versions)
+                    .WithOne(pc => pc.MetaData)
+                    .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<BlikiPageMetaData>()
-                .HasOne(md => md.LatestVersion);
-
-            base.OnModelCreating(modelBuilder);
+                entity.HasIndex(e => e.UrlTitle).IsUnique();
+            });
+            builder.Entity<BlikiPageMetaData>(entity =>
+            {
+                entity.HasOne(md => md.LatestVersion);
+  
+            });
+            base.OnModelCreating(builder);
         }
 
         protected BlikiContext()
