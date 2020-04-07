@@ -1,9 +1,6 @@
-﻿using Denga.Bliki.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Denga.Bliki.Web.Shared.Models;
 
-namespace Denga.Bliki.Web.Shared
+namespace Denga.Bliki.Data.ModelBuilders
 {
     public static class BlikiPageModelBuilder
     {
@@ -14,7 +11,9 @@ namespace Denga.Bliki.Web.Shared
                 Id = page.Id,
                 Title = page.LatestVersion.Title,
                 HtmlContent = page.LatestVersion.HtmlContent,
-                UrlTitle = page.UrlTitle
+                UrlTitle = page.UrlTitle,
+                CreatedAt = page.CreatedAt,
+                ModifiedAt = page.LatestVersion.CreatedAt
             };
         }
     }

@@ -19,8 +19,6 @@ namespace Denga.Bliki.Web.Client
 
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddBaseAddressHttpClient();
-
             await builder.Build().RunAsync();
         }
     }

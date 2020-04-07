@@ -1,8 +1,23 @@
 ﻿@page "/recent"
+@using Denga.Bliki.Web.Shared.Models
 @inject NavigationManager nav
 @inject PageDataService  pageData
 RECENT CHANGES
 
+@foreach (var blikiPage in Pages)
+{
+    <p>
+        <a href="page/@blikiPage.UrlTitle">@blikiPage.Title</a> (Modified: @blikiPage.ModifiedAt.ToString("dd-MM-yyyy HH:mm"))
+    </p>
+}
+
+
 @code {
+    public IEnumerable<BlikiPageModel> Pages { get; set; } = new List<BlikiPageModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Pages =await pageData.GetRecentChanges();
+    }
 
 }

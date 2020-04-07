@@ -13,6 +13,18 @@ namespace Denga.Bliki.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BlikiPageMetaData>()
+                .HasMany(md => md.Versions)
+                .WithOne(pc => pc.MetaData);
+
+            modelBuilder.Entity<BlikiPageMetaData>()
+                .HasOne(md => md.LatestVersion);
+
+            base.OnModelCreating(modelBuilder);
+        }
+
         protected BlikiContext()
         {
         }

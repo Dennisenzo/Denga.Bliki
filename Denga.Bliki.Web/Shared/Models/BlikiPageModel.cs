@@ -1,4 +1,6 @@
-﻿namespace Denga.Bliki.Web.Shared
+﻿using System;
+
+namespace Denga.Bliki.Web.Shared.Models
 {
     public class BlikiPageModel
     {
@@ -7,5 +9,8 @@
         public string Title { get; set; }
         public string UrlTitle { get; set; }
         public string HtmlContent { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
     }
 }

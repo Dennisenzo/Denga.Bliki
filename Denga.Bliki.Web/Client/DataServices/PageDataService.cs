@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Denga.Bliki.Web.Shared.Models;
 
 namespace Denga.Bliki.Web.Client.DataServices
 {
@@ -25,6 +27,17 @@ namespace Denga.Bliki.Web.Client.DataServices
             return await Get<BlikiPageModel>($"new");
         }
 
+        
+        public async Task<IEnumerable<BlikiPageModel>> GetRecentChanges()
+        {
+            return await Get<IEnumerable<BlikiPageModel>>($"recent");
+        }
+
+        public async Task<bool> ValidateUrlTitle(string title, int? pageId)
+        {
+            return await Get<bool>($"validate/urltitle?title={WebUtility.UrlEncode(title)}&pageId={pageId}");
+        }
+
         public async Task<BlikiPageModel> SavePageModel(BlikiPageModel model)
         {
             return await Post<BlikiPageModel>("", model);
@@ -32,7 +45,7 @@ namespace Denga.Bliki.Web.Client.DataServices
 
         public async Task<IEnumerable<BlikiPageModel>> SearchPageModel(string searchString)
         {
-            return await Get<IEnumerable<BlikiPageModel>>($"search?searchString={searchString}");
+            return await Get<IEnumerable<BlikiPageModel>>($"search?searchString={WebUtility.UrlEncode(searchString)}");
         }
     }
 

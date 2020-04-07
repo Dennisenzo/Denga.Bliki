@@ -1,4 +1,5 @@
 ﻿@page "/page/{UrlTitle}"
+@using Denga.Bliki.Web.Shared.Models
 @inject NavigationManager nav
 @inject PageDataService  pageData
 
@@ -7,8 +8,10 @@
     <MatButton OnClick="EditPage">Edit</MatButton>
 
     <div class="page-title">
-        @Model.Title
-    </div>
+        <h1>
+            @Model.Title
+        </h1>
+        </div>
     <div class="page-content">
 
         @((MarkupString)Model.HtmlContent)

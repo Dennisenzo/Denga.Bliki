@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Denga.Bliki.Web.Shared.Models;
 
 namespace Denga.Bliki.Data.Services
 {
@@ -41,8 +42,20 @@ namespace Denga.Bliki.Data.Services
                     Version = 1,
                     Title = "New Page",
                     HtmlContent = "<h1>Titel</h1><p>Add your content here...</p>",
+                    CreatedAt = DateTime.Now
                 }
             };
+        }
+
+        public async Task<IEnumerable<BlikiPageMetaData>> GetRecentChanges(int amount)
+        {
+            var pages = await db.BlikiPageMetaDatas
+                .Include(bp => bp.LatestVersion)
+                .OrderByDescending(bp => bp.LatestVersion.CreatedAt)
+                .Take(amount)
+                .ToListAsync();
+
+            return pages;
         }
 
         public async Task<BlikiPageMetaData> SavePage(BlikiPageModel model)
@@ -57,7 +70,8 @@ namespace Denga.Bliki.Data.Services
             {
                 page = new BlikiPageMetaData()
                 {
-                    UrlTitle = UrlTitleHelper.ToUrlTitle(model.UrlTitle)
+                    UrlTitle = UrlTitleHelper.ToUrlTitle(model.UrlTitle),
+                    CreatedAt = DateTime.Now
                 };
                 db.Add(page);
                 await db.SaveChangesAsync();
@@ -69,6 +83,7 @@ namespace Denga.Bliki.Data.Services
                 MetaData = page,
                 Title = model.Title,
                 Version = page.LatestVersion?.Version + 1 ?? 1,
+                CreatedAt = DateTime.Now
             };
 
             db.Add(latestVersion);
@@ -86,6 +101,18 @@ namespace Denga.Bliki.Data.Services
                 .Where(bp => EF.Functions.Like(bp.LatestVersion.Title, $"%{searchString}%")).ToListAsync();
 
             return pages;
+        }
+
+        public async Task<bool> ValidateUrlTitle(string urlTitle, int? pageId)
+        {
+            if (pageId.HasValue)
+            {
+                return await db.BlikiPageMetaDatas.AnyAsync(md => md.Id != pageId.Value && md.UrlTitle == urlTitle) == false;
+            }
+            else
+            {
+                return await db.BlikiPageMetaDatas.AnyAsync(md =>  md.UrlTitle == urlTitle) == false;
+            }
         }
     }
 }

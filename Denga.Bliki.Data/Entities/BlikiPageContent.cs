@@ -14,6 +14,8 @@ namespace Denga.Bliki.Data
         [ForeignKey(nameof(BlikiPageMetaDataId))]
         public BlikiPageMetaData MetaData { get; set; }
 
+
+        public DateTime CreatedAt { get; set; }
         public int Version { get; set; }
         public string Title { get; set; }
         public string HtmlContent { get; set; }
