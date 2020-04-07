@@ -1,2 +1,2 @@
-# Denga.Bliki
+# Denga.Bwiki
 Blazor Wiki
