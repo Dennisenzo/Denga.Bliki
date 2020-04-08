@@ -13,21 +13,21 @@ namespace Denga.Bwiki.Web.Client.DataServices
         {
         }
 
-        public async Task<BlikiPageModel> GetPageModel(string urlTitle)
+        public async Task<PageModel> GetPageModel(string urlTitle)
         {
-            return await Get<BlikiPageModel>($"?urlTitle={urlTitle}");
+            return await Get<PageModel>($"?urlTitle={urlTitle}");
         }
 
 
-        public async Task<BlikiPageModel> GetNewPageModel()
+        public async Task<PageModel> GetNewPageModel()
         {
-            return await Get<BlikiPageModel>($"new");
+            return await Get<PageModel>($"new");
         }
 
         
-        public async Task<IEnumerable<BlikiPageModel>> GetRecentChanges()
+        public async Task<IEnumerable<PageModel>> GetRecentChanges()
         {
-            return await Get<IEnumerable<BlikiPageModel>>($"recent");
+            return await Get<IEnumerable<PageModel>>($"recent");
         }
 
         public async Task<bool> ValidateUrlTitle(string title, int? pageId)
@@ -35,14 +35,14 @@ namespace Denga.Bwiki.Web.Client.DataServices
             return await Get<bool>($"validate/urltitle?title={WebUtility.UrlEncode(title)}&pageId={pageId}");
         }
 
-        public async Task<BlikiPageModel> SavePageModel(BlikiPageModel model)
+        public async Task<PageModel> SavePageModel(PageModel model)
         {
-            return await Post<BlikiPageModel>("", model);
+            return await Post<PageModel>("", model);
         }
 
-        public async Task<IEnumerable<BlikiPageModel>> SearchPageModel(string searchString)
+        public async Task<IEnumerable<PageModel>> SearchPageModel(string searchString)
         {
-            return await Get<IEnumerable<BlikiPageModel>>($"search?searchString={WebUtility.UrlEncode(searchString)}");
+            return await Get<IEnumerable<PageModel>>($"search?searchString={WebUtility.UrlEncode(searchString)}");
         }
     }
 

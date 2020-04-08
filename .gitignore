@@ -349,3 +349,4 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 PublishProfiles
+/Denga.Bwiki.Web/Server/appsettings.Production.json

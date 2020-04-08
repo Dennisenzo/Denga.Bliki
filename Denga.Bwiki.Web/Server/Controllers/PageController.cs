@@ -23,19 +23,19 @@ namespace Denga.Bwiki.Web.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<BlikiPageModel> Get(string urlTitle)
+        public async Task<PageModel> Get(string urlTitle)
         {
             return (await pageService.GetPageByUrlTitle(urlTitle)).ToModel();
         }
 
         [HttpGet("new")]
-        public async Task<BlikiPageModel> GetNew()
+        public PageModel GetNew()
         {
             return pageService.GetEmptyPage().ToModel();
         }
 
         [HttpGet("recent")]
-        public async Task<IEnumerable<BlikiPageModel>> GetRecentChanges()
+        public async Task<IEnumerable<PageModel>> GetRecentChanges()
         {
             var pages = (await pageService.GetRecentChanges(10)).Select(p => p.ToModel());
 
@@ -49,13 +49,13 @@ namespace Denga.Bwiki.Web.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<BlikiPageModel> Post(BlikiPageModel model)
+        public async Task<PageModel> Post(PageModel model)
         {
             return (await pageService.SavePage(model)).ToModel();
         }
 
         [HttpGet("search")]
-        public async Task<IEnumerable<BlikiPageModel>> Search(string searchString)
+        public async Task<IEnumerable<PageModel>> Search(string searchString)
         {
             var pages = (await pageService.SearchPage(searchString)).Select(p => p.ToModel());
 

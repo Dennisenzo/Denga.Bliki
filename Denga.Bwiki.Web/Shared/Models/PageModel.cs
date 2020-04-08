@@ -2,7 +2,7 @@
 
 namespace Denga.Bwiki.Web.Shared.Models
 {
-    public class BlikiPageModel
+    public class PageModel
     {
         public int? Id { get; set; }
         public int Version { get; set; }

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Denga.Bwiki.Data.Migrations
 {
     [DbContext(typeof(BwikiContext))]
-    partial class BlikiContextModelSnapshot : ModelSnapshot
+    partial class BwikiContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

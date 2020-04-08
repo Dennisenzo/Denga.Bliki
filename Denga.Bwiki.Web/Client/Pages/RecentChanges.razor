@@ -3,15 +3,16 @@
 @using Denga.Bwiki.Web.Shared.Models
 @inject NavigationManager nav
 @inject PageDataService  pageData
-RECENT CHANGES
+
+<h1>Recent changes</h1>
 @if (isSearching)
 {
 <MatProgressBar Indeterminate="true"></MatProgressBar>
 }
-@foreach (var blikiPage in Pages)
+@foreach (var pageModel in Pages)
 {
 <p>
-    <a href="page/@blikiPage.UrlTitle">@blikiPage.Title</a> (Modified: @blikiPage.ModifiedAt.ToString("dd-MM-yyyy HH:mm"))
+    <a href="page/@pageModel.UrlTitle">@pageModel.Title</a> (Modified: @pageModel.ModifiedAt.ToString("dd-MM-yyyy HH:mm"))
 </p>
 }
 
@@ -19,7 +20,7 @@ RECENT CHANGES
 @code {
 
     public bool isSearching = false;
-    public IEnumerable<BlikiPageModel> Pages { get; set; } = new List<BlikiPageModel>();
+    public IEnumerable<PageModel> Pages { get; set; } = new List<PageModel>();
 
     protected override async Task OnInitializedAsync()
     {

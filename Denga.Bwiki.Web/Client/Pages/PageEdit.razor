@@ -66,7 +66,7 @@ else
     [Parameter]
     public string UrlTitle { get; set; }
 
-    public BlikiPageModel Model { get; set; }
+    public PageModel Model { get; set; }
 
     public BlazoredTextEditor QuillHtml { get; set; }
 
@@ -78,7 +78,7 @@ else
         }
         else
         {
-            Model = new BlikiPageModel()
+            Model = new PageModel()
             {
                 Title = "Page Title",
                 UrlTitle = UrlTitleHelper.ToUrlTitle("Page Title"),

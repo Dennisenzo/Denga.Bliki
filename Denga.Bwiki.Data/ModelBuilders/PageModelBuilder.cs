@@ -3,11 +3,11 @@ using Denga.Bwiki.Web.Shared.Models;
 
 namespace Denga.Bwiki.Data.ModelBuilders
 {
-    public static class BlikiPageModelBuilder
+    public static class PageModelBuilder
     {
-        public static BlikiPageModel ToModel(this PageMetaData page)
+        public static PageModel ToModel(this PageMetaData page)
         {
-            return new BlikiPageModel
+            return new PageModel
             {
                 Id = page.Id,
                 Title = page.LatestVersion.Title,

@@ -58,7 +58,7 @@ namespace Denga.Bwiki.Data.Services
             return pages;
         }
 
-        public async Task<PageMetaData> SavePage(BlikiPageModel model)
+        public async Task<PageMetaData> SavePage(PageModel model)
         {
             PageMetaData page;
 
