@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Denga.Bwiki.Web.Shared.Models;
-using Microsoft.AspNetCore.Components;
+using System.Net.Http.Json;
 
 namespace Denga.Bwiki.Web.Client.DataServices
 {
@@ -64,12 +64,14 @@ namespace Denga.Bwiki.Web.Client.DataServices
 
         protected async Task<TOUT> Get<TOUT>(string url)
         {
-            return await HttpClient.GetJsonAsync<TOUT>($"{BaseUrl}{url}");
+            return await HttpClient.GetFromJsonAsync<TOUT>($"{BaseUrl}{url}");
         }
 
         protected async Task<TOUT> Post<TOUT>(string url, object content)
         {
-            return await HttpClient.PostJsonAsync<TOUT>($"{BaseUrl}{url}", content);
+            var response= await HttpClient.PostAsJsonAsync($"{BaseUrl}{url}", content);
+
+            return await response.Content.ReadFromJsonAsync<TOUT>();
         }
     }
 }

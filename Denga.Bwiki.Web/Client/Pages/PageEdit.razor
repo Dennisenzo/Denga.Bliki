@@ -85,9 +85,12 @@ else
                 HtmlContent = "<p>Welcome to my page!</p>",
             };
         }
-        StateHasChanged();
+
         await this.QuillHtml.LoadHTMLContent(Model.HtmlContent);
     }
+
+
+
     public void TitleChanged(ChangeEventArgs e)
     {
         Model.Title = e.Value.ToString();
