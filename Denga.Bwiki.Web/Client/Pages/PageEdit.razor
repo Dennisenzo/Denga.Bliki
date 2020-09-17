@@ -70,25 +70,28 @@ else
 
     public BlazoredTextEditor QuillHtml { get; set; }
 
-    protected override async Task OnParametersSetAsync()
+    protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!string.IsNullOrWhiteSpace(UrlTitle))
+        if (firstRender)
         {
-            Model = await pageData.GetPageModel(UrlTitle);
-        }
-        else
-        {
-            Model = new PageModel()
+            if (!string.IsNullOrWhiteSpace(UrlTitle))
             {
-                Title = "Page Title",
-                UrlTitle = UrlTitleHelper.ToUrlTitle("Page Title"),
-                HtmlContent = "<p>Welcome to my page!</p>",
-            };
+                Model = await pageData.GetPageModel(UrlTitle);
+            }
+            else
+            {
+                Model = new PageModel()
+                {
+                    Title = "Page Title",
+                    UrlTitle = UrlTitleHelper.ToUrlTitle("Page Title"),
+                    HtmlContent = "<p>Welcome to my page!</p>",
+                };
+            }
+
+            await this.QuillHtml.LoadHTMLContent(Model.HtmlContent);
         }
-
-        await this.QuillHtml.LoadHTMLContent(Model.HtmlContent);
+        await base.OnAfterRenderAsync(firstRender);
     }
-
 
 
     public void TitleChanged(ChangeEventArgs e)
